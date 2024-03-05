@@ -8,6 +8,8 @@
 import UIKit
 import Firebase
 import FirebaseStorage
+import FirebaseFirestore
+import FirebaseAuth
 
 class UploadViewController: UIViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
@@ -61,6 +63,19 @@ class UploadViewController: UIViewController, UIImagePickerControllerDelegate,UI
                     imageReference.downloadURL { url, error in
                         let imageUrl = url?.absoluteString
                         // url yi stringe çevirdik ki kaydedebilelim.
+                        
+                        let firestoreDatabase = Firestore.firestore()
+                        var firestoreReference : DocumentReference? = nil
+                        
+                        let firestorePost = ["email" : Auth.auth().currentUser!.email!, "comment" : self.comment.text!, "imageUrl" : imageUrl, "date" : FieldValue.serverTimestamp(),"like" : 0] as! [String : Any]
+                        
+                        firestoreReference = firestoreDatabase.collection("Posts").addDocument(data: firestorePost, completion: { error in
+                            if error != nil {
+                                self.makeAlert(titleInput: "Error", messageInput: error?.localizedDescription ?? "Error")
+                            } else {
+                                self.tabBarController?.selectedIndex = 0
+                            }
+                        })
                         
                     }
                     
