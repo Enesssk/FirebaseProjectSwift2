@@ -21,6 +21,8 @@ class FeedViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,7 +54,7 @@ class FeedViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             self.userImage.append(imageUrl)
                         }
                         if let like = document.get("like") as? Int {
-                            self.likeArray.append("\(like)")
+                            self.likeArray.append("like: \(like)")
                         }
                         
                     }
